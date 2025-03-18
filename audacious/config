@@ -1,0 +1,17 @@
+
+[audacious]
+repeat=TRUE
+show_interface=FALSE
+shuffle=TRUE
+
+[audgui]
+filesel_path=/home/ayslan/Music/Playlist
+
+[qtui]
+column_widths=25,25,655,175,50,175,175,25,100,25,75,275,275,275,75,275,175,75
+player_height=1050
+player_width=960
+
+[statusicon]
+close_to_tray=TRUE
+reverse_scroll=TRUE
