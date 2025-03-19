@@ -34,7 +34,8 @@ alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
 
-alias vim='lvim'
+alias code='code --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop'
+alias vim='nvim'
 
 # Set-up FZF key bindings (CTRL R for fuzzy history finder)
 source <(fzf --zsh)
