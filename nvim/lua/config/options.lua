@@ -7,6 +7,13 @@ vim.opt.sidescrolloff = 8 -- Idem para rolagem horizontal
 vim.opt.colorcolumn = "100" -- Coluna visual para limite de código
 vim.opt.termguicolors = true -- Cores verdadeiras no terminal
 vim.opt.conceallevel = 0 -- Mostra todos os caracteres sem ocultação
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    vim.opt.spell = false
+  end,
+})
+-- vim.opt.spelllang = "pt_br"
 
 -- Configuração de indentação e quebra de linha
 vim.opt.tabstop = 4 -- Tamanho do tab

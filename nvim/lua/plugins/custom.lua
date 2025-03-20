@@ -155,25 +155,25 @@ return {
   },
 
   -- Suporte GitHub Copilot (opcional)
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          enable = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<Tab>",
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
-          },
-        },
-      })
-    end,
-  },
+  --  {
+  --    "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --    event = "InsertEnter",
+  --    config = function()
+  --      require("copilot").setup({
+  --        suggestion = {
+  --          enable = true,
+  --          auto_trigger = true,
+  --          keymap = {
+  --            accept = "<Tab>",
+  --            next = "<M-]>",
+  --            prev = "<M-[>",
+  --            dismiss = "<C-]>",
+  --          },
+  --        },
+  --      })
+  --    end,
+  -- },
 
   -- Status linha enriquecida com status do LSP e Git
   {
