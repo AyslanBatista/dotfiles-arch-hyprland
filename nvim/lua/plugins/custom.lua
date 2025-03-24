@@ -1,5 +1,5 @@
 return {
-  -- Terminal integrado no estilo VSCode (na parte inferior)
+  -- Terminal integrado no estilo VSCode
   {
     "akinsho/toggleterm.nvim",
     version = "*",
@@ -7,7 +7,7 @@ return {
       require("toggleterm").setup({
         size = 15,
         open_mapping = [[<c-`>]], -- Igual ao VSCode (Ctrl+`)
-        direction = "horizontal", -- Terminal na parte inferior
+        direction = "horizontal",
         shade_terminals = true,
         start_in_insert = true,
         insert_mappings = true,
@@ -16,7 +16,7 @@ return {
     end,
   },
 
-  -- Melhor destaque de cores em códigos de cores
+  -- Destaque de cores em códigos de cores
   {
     "NvChad/nvim-colorizer.lua",
     config = function()
@@ -34,7 +34,7 @@ return {
     },
   },
 
-  -- Destacar palavras iguais sob o cursor (como no VSCode)
+  -- Destacar palavras iguais sob o cursor
   {
     "RRethy/vim-illuminate",
     config = function()
@@ -51,7 +51,7 @@ return {
     "ahmedkhalf/project.nvim",
     opts = {
       detection_methods = { "pattern" },
-      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "Cargo.toml" },
       show_hidden = false,
     },
     config = function(_, opts)
@@ -63,8 +63,7 @@ return {
     },
   },
 
-  -- Suporte a várias linguagens - configurações específicas
-  -- Python
+  -- Adicionar linguagens ao treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
@@ -88,6 +87,7 @@ return {
     end,
   },
 
+  -- Configurações de LSP
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -122,60 +122,95 @@ return {
                   enable = true,
                 },
               },
+              procMacro = {
+                enable = true,
+              },
+              cargo = {
+                allFeatures = true,
+              },
+              diagnostics = {
+                enable = true,
+                experimental = {
+                  enable = true,
+                },
+              },
             },
           },
+          -- Configurações adicionais específicas de Rust
+          on_attach = function(client, bufnr)
+            -- Mapeamentos específicos para Rust
+            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code actions" })
+            vim.keymap.set("n", "<leader>cr", "<cmd>RustRunnables<CR>", { buffer = bufnr, desc = "Rust Runnables" })
+            vim.keymap.set("n", "<leader>ch", "<cmd>RustHoverActions<CR>", { buffer = bufnr, desc = "Hover Actions" })
+          end,
         },
       },
     },
   },
 
-  -- Suporte aprimorado para Rust
+  -- Suporte aprimorado para Rust usando o plugin oficial
   {
-    "simrat39/rust-tools.nvim",
+    "rust-lang/rust.vim",
     ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end,
+  },
+
+  -- Plugin adicional para desenvolvimento Rust
+  {
+    "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("rust-tools").setup({
-        tools = {
-          runnables = {
-            use_telescope = true,
-          },
-          inlay_hints = {
-            auto = true,
-            show_parameter_hints = true,
-          },
+      require("crates").setup({
+        popup = {
+          autofocus = true,
         },
-        server = {
-          on_attach = function(client, bufnr)
-            vim.keymap.set("n", "<leader>ca", require("rust-tools").hover_actions.hover_actions, { buffer = bufnr })
-            vim.keymap.set("n", "<leader>cr", require("rust-tools").runnables.runnables, { buffer = bufnr })
-          end,
+        null_ls = {
+          enabled = true,
         },
       })
     end,
   },
 
-  -- Suporte GitHub Copilot (opcional)
-  --  {
-  --    "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --    event = "InsertEnter",
-  --    config = function()
-  --      require("copilot").setup({
-  --        suggestion = {
-  --          enable = true,
-  --          auto_trigger = true,
-  --          keymap = {
-  --            accept = "<Tab>",
-  --            next = "<M-]>",
-  --            prev = "<M-[>",
-  --            dismiss = "<C-]>",
-  --          },
-  --        },
-  --      })
-  --    end,
-  -- },
+  -- Melhorias para utilização com Python
+  {
+    "mfussenegger/nvim-dap-python",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
+    config = function()
+      local path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+      require("dap-python").setup(path)
+    end,
+  },
 
-  -- Status linha enriquecida com status do LSP e Git
+  -- Formatador para Python e outras linguagens
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "black", "isort" },
+        rust = { "rustfmt" },
+        lua = { "stylua" },
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        json = { "prettier" },
+        html = { "prettier" },
+        css = { "prettier" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+    },
+  },
+
+  -- Status linha enriquecida com informações de LSP e Git
   {
     "nvim-lualine/lualine.nvim",
     opts = {
@@ -203,7 +238,7 @@ return {
     },
   },
 
-  -- Keymaps personalizados no estilo VSCode para funcionalidades adicionais
+  -- Keymaps personalizados para funcionalidades adicionais
   {
     "folke/which-key.nvim",
     opts = {
@@ -216,20 +251,17 @@ return {
       },
     },
   },
+
   -- Debug Adapter Protocol
   {
     "mfussenegger/nvim-dap",
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio", -- Dependência necessária para o nvim-dap-ui
-      "mfussenegger/nvim-dap-python", -- Para Python
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
-
-      -- Configuração para Python
-      require("dap-python").setup("python")
 
       -- Interface de usuário para debugging
       dapui.setup()
@@ -251,6 +283,73 @@ return {
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close()
       end
+    end,
+  },
+
+  -- Ferramentas adicionais para Python (linting, formatação, etc.)
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      vim.list_extend(opts.ensure_installed, {
+        -- Python
+        "pyright",
+        "black",
+        "isort",
+        "flake8",
+        "mypy",
+        "debugpy",
+        -- Rust
+        "rust-analyzer",
+        -- Lua
+        "stylua",
+        -- Shell
+        "shellcheck",
+        "shfmt",
+        -- Web
+        "prettier",
+      })
+    end,
+  },
+
+  -- Adicionar múltiplos cursores (similar ao VSCode)
+  {
+    "mg979/vim-visual-multi",
+    branch = "master",
+  },
+
+  -- Configuração do tema
+  { "folke/tokyonight.nvim" },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "tokyonight",
+    },
+  },
+
+  -- Plugins Comnent
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup()
+    end,
+  },
+
+  -- Plugin telescope
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").setup({})
+    end,
+  },
+
+  -- Plugin tree
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("neo-tree").setup({})
     end,
   },
 }

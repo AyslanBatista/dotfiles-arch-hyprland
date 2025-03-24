@@ -1,5 +1,7 @@
 -- lua/config/options.lua
 -- Configurações básicas do Neovim
+
+-- Aparência
 vim.opt.relativenumber = true -- Números de linha relativos
 vim.opt.cursorline = true -- Destaca a linha atual do cursor
 vim.opt.scrolloff = 8 -- Mantém o cursor 8 linhas distante do topo/fundo da tela
@@ -7,6 +9,9 @@ vim.opt.sidescrolloff = 8 -- Idem para rolagem horizontal
 vim.opt.colorcolumn = "100" -- Coluna visual para limite de código
 vim.opt.termguicolors = true -- Cores verdadeiras no terminal
 vim.opt.conceallevel = 0 -- Mostra todos os caracteres sem ocultação
+vim.opt.signcolumn = "yes" -- Sempre mostrar a coluna de sinais para diagnósticos
+
+-- Desativar verificação ortográfica por padrão
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
@@ -25,11 +30,21 @@ vim.opt.wrap = false -- Não quebrar linhas longas
 
 -- Configurações específicas para tipos de arquivo
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "lua", "json", "yaml", "html", "javascript", "typescript" },
+  pattern = { "lua", "json", "yaml", "html", "javascript", "typescript", "css", "markdown" },
   callback = function()
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2
     vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- Configurações específicas para Rust
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "rust",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
   end,
 })
 
@@ -46,3 +61,22 @@ vim.opt.shell = "/bin/zsh" -- Seu shell padrão
 vim.opt.updatetime = 250 -- Atualização mais rápida para autocompletar
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300 -- Tempo para reconhecer comandos
+
+-- Configurações de estabilidade
+vim.opt.hidden = true -- Permite trocar de buffer sem salvar
+vim.opt.swapfile = false -- Desativa arquivos de swap
+vim.opt.backup = false -- Desativa backup
+vim.opt.undofile = true -- Histórico de desfazer persistente
+
+-- Visualização de caracteres invisíveis (opcional, comente se não gostar)
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "→ ",
+  trail = "·",
+  extends = "»",
+  precedes = "«",
+  nbsp = "␣",
+}
+
+-- Configurações para melhor integração com sistema de clipboard
+vim.opt.clipboard = "unnamedplus" -- Usar clipboard do sistema
