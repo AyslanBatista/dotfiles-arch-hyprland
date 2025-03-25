@@ -10,8 +10,11 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -- Terminal (não conflita com o Vim)
-map("n", "<C-`>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal (VSCode style)" })
-map("n", "<C-j>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal (alternative)" })
+map("n", "<C-/>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal (VSCode style)" })
+--map("n", "<C-j>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal (alternative)" })
+
+-- Sair do modo terminal
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- File explorer (não conflita com o Vim core)
 map("n", "<C-e>", "<cmd>Neotree toggle<CR>", { desc = "Toggle file explorer" })
@@ -26,7 +29,7 @@ map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" })
 -- NOTA: <C-q> sobrescreve CTRL-Q do terminal (retoma output)
 map("n", "<C-q>", "<cmd>q<CR>", { desc = "Quit" })
 -- NOTA: Este não conflita com comandos nativos do Vim
-map("n", "<C-/>", function()
+map("n", "<C-;>", function()
   require("Comment.api").toggle.linewise.current()
 end, { desc = "Toggle comment" })
 
@@ -62,8 +65,8 @@ map("v", "<A-up>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 map("v", "<A-down>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 
 -- Buffers/tabs
-map("n", "<C-Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
+--map("n", "<C-Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
+--map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
 -- NOTA: <C-w> é um prefixo muito importante no Vim para gerenciar janelas!
 -- Recomendo usar outro atalho ou aprender o :bd do Vim
 map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Close buffer" })
@@ -92,3 +95,14 @@ map("n", "<leader>ps", "<cmd>lua require('dap-python').debug_selection()<CR>", {
 -- map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Go to definition" })
 -- map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { desc = "Go to references" })
 -- map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { desc = "Go to implementation" })
+
+-- Alternar entre buffers usando Alt+número (estilo VSCode)
+map("n", "<A-1>", "<cmd>BufferLineGoToBuffer 1<CR>", { desc = "Go to buffer 1" })
+map("n", "<A-2>", "<cmd>BufferLineGoToBuffer 2<CR>", { desc = "Go to buffer 2" })
+map("n", "<A-3>", "<cmd>BufferLineGoToBuffer 3<CR>", { desc = "Go to buffer 3" })
+map("n", "<A-4>", "<cmd>BufferLineGoToBuffer 4<CR>", { desc = "Go to buffer 4" })
+map("n", "<A-5>", "<cmd>BufferLineGoToBuffer 5<CR>", { desc = "Go to buffer 5" })
+map("n", "<A-6>", "<cmd>BufferLineGoToBuffer 6<CR>", { desc = "Go to buffer 6" })
+map("n", "<A-7>", "<cmd>BufferLineGoToBuffer 7<CR>", { desc = "Go to buffer 7" })
+map("n", "<A-8>", "<cmd>BufferLineGoToBuffer 8<CR>", { desc = "Go to buffer 8" })
+map("n", "<A-9>", "<cmd>BufferLineGoToBuffer 9<CR>", { desc = "Go to buffer 9" })
