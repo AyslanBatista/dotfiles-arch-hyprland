@@ -81,7 +81,7 @@ countdown() {
 
 # take shots
 shotnow() {
-	cd ${dir} && grim - |tee "$file" | wl-copy
+	cd ${dir} && grim - | tee "$file" | wl-copy
 	sleep 2
 	notify_view
 }
@@ -108,7 +108,7 @@ shotwin() {
 
 shotarea() {
 	tmpfile=$(mktemp)
-	grim -g "$(slurp)" - | swappy -f - -o - >"$tmpfile"
+	grim -g "$(slurp)" - >"$tmpfile"
 	if [[ -s "$tmpfile" ]]; then
 		wl-copy <"$tmpfile"
 		mv "$tmpfile" "$dir/$file"

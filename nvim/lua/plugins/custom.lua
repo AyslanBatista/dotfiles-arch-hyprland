@@ -6,7 +6,7 @@ return {
     config = function()
       require("toggleterm").setup({
         size = 15,
-        open_mapping = [[<c-`>]], -- Igual ao VSCode (Ctrl+`)
+        open_mapping = [[<c-/>]], -- Igual ao VSCode (Ctrl+`)
         direction = "horizontal",
         shade_terminals = true,
         start_in_insert = true,
@@ -113,13 +113,14 @@ return {
             ["rust-analyzer"] = {
               checkOnSave = {
                 command = "clippy",
+                extraArgs = { "--", "-A", "clippy::wildcard_in_or_patterns" },
               },
               inlayHints = {
                 parameterHints = {
-                  enable = true,
+                  enable = false,
                 },
                 typeHints = {
-                  enable = true,
+                  enable = false,
                 },
               },
               procMacro = {
@@ -137,7 +138,7 @@ return {
             },
           },
           -- Configurações adicionais específicas de Rust
-          on_attach = function(client, bufnr)
+          on_attach = function(_, bufnr)
             -- Mapeamentos específicos para Rust
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code actions" })
             vim.keymap.set("n", "<leader>cr", "<cmd>RustRunnables<CR>", { buffer = bufnr, desc = "Rust Runnables" })
