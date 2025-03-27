@@ -320,7 +320,7 @@ return {
   },
 
   -- Configuração do tema
-  { "folke/tokyonight.nvim" },
+  { "folke/tokyonight.nvim", opts = { style = "moon" } },
   {
     "LazyVim/LazyVim",
     opts = {
