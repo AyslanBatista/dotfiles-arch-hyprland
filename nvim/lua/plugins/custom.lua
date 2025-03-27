@@ -353,4 +353,25 @@ return {
       require("neo-tree").setup({})
     end,
   },
+
+  -- Autocomplet no TAB
+  -- Configuração do blink.cmp com mapeamento condicional para o Tab
+  {
+    "saghen/blink.cmp",
+    dependencies = "rafamadriz/friendly-snippets",
+    version = "*",
+    opts = {
+      keymap = {
+        preset = "super-tab", -- Esta configuração permite Tab e Enter
+      },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+    },
+    opts_extend = { "sources.default" },
+  },
 }
