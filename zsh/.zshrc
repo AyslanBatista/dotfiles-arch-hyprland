@@ -1,7 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$
-
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="intheloop"
@@ -9,7 +8,6 @@ ZSH_THEME="intheloop"
 plugins=(
     git
     archlinux
-    ssh-agent
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
@@ -34,8 +32,8 @@ alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
 
-alias code='code --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop'
 alias vim='nvim'
+alias code='code --ozone-platform=x11'
 
 # Set-up FZF key bindings (CTRL R for fuzzy history finder)
 source <(fzf --zsh)
